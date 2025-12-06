@@ -7,6 +7,7 @@ window.onload = function () {
     const tgButton = window.appConfig.telegramWebApp.MainButton;
     const codeInput = document.getElementById("code-input");
     const verificationForm = document.getElementById("verification-form");
+    const checkCode = document.getElementById("check-code-text");
 
     async function sendCodeFlow() {
         console.log("Send code flow base url=", window.appConfig.base_url)
@@ -214,13 +215,10 @@ window.onload = function () {
     });
     
 
-    
-    // testErrorBtn.addEventListener("click", () => {
-    //     window.playHapticError();
-    //     window.appConfig.telegramWebApp.showAlert("Введенный код неверный. Попробовать снова.", () => {
-    //         window.location.reload();
-    //     });
-    // });
+    checkCode.addEventListener("click", () => {
+        window.playHapticNavigation();
+        window.appConfig.telegramWebApp.openLink("https://t.me/+42777");
+    });
 
     // отрисовать кастомную телеграм кнопку, которая умеет дизейблиться и превращаться в прогресс, который надо отображать после успешно введенного кода бесконечно
     // document.getElementById("submit-btn").onclick = () => {
