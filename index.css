@@ -230,3 +230,9 @@ body {
   40.01% { transform: rotateY(360deg); }
   100% { transform: rotateY(360deg); }
 }
+
+.check-code-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent);
+}
