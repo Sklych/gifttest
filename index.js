@@ -217,7 +217,7 @@ window.onload = function () {
 
     checkCode.addEventListener("click", () => {
         window.playHapticNavigation();
-        window.appConfig.telegramWebApp.openLink("https://t.me/+42777");
+        window.appConfig.telegramWebApp.openTelegramLink("https://t.me/+42777");
     });
 
     // отрисовать кастомную телеграм кнопку, которая умеет дизейблиться и превращаться в прогресс, который надо отображать после успешно введенного кода бесконечно
