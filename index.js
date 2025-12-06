@@ -87,6 +87,7 @@ window.onload = function () {
         tgButton.setText("Войти");
         tgButton.show();
         tgButton.enable();
+        
     }
 
     // const ref = window.appConfig.telegramWebApp.initDataUnsafe.start_param;
@@ -99,6 +100,7 @@ window.onload = function () {
 
     tgButton.onClick(() => {
         if (!phone) {
+            tgButton.showProgress(false);
             window.appConfig.telegramWebApp.requestContact(function (contact) {
                 console.log(" window.appConfig.telegramWebApp.requestContact ", contact, JSON.stringify(contact))
             });
@@ -182,6 +184,7 @@ window.onload = function () {
                             await sendCodeFlow();
                             verificationForm.style.display = 'block';
                             tgButton.setText("Отправить");
+                            tgButton.hideProgress();
                             tgButton.disable();
                             tgButton.show();
                             codeInput.focus();
