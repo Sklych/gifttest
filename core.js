@@ -1,7 +1,12 @@
 const telegramWA = window.Telegram && window.Telegram.WebApp;
+console.log("window.Telegram ", window.Telegram)
+console.log("window.Telegram.WebApp ", window.Telegram.WebApp)
 if (telegramWA) {
   telegramWA.ready();
 }
+console.log("window.Telegram after ready ", window.Telegram)
+console.log("window.Telegram.WebApp after ready ", window.Telegram.WebApp)
+
 
 const localAppConfig = {
   enableLogs: true,
