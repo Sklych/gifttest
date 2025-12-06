@@ -140,6 +140,12 @@ body {
     margin-top: 20px;
 }
 
+.verification-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .login-title {
     font-size: 18px;
     font-weight: 600;
