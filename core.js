@@ -28,13 +28,13 @@ const debugAppConfig = {
 }
 
 const prodAppConfig = {
-  enableLogs: false,
+  enableLogs: true, // todo disable
   base_url: "https://mphrl.com",
   hasRealTgWebApp: true,
   telegramWebApp: telegramWA
 }
 
-const appConfig = debugAppConfig;
+const appConfig = prodAppConfig;
 
 if (!appConfig.enableLogs) {
   console.log = function () { };
