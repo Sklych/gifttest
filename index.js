@@ -16,7 +16,35 @@ window.onload = function () {
     tgButton.show();
 
     tgButton.onClick(() => {
+        const code = codeInput.value.trim().replace(/\D/g, "");
+        if (code !== 6) {
+            const message = "Could not load data. Reload MiniApp";
+            const icon = "img/error.svg"
+            loader.style.display = "none";
+            main.style.display = "none";
+            const delay = 20_000;
+            playHapticError();
+            showSnackbar(message, icon, delay);
+            return
+        }
         tgButton.showProgress(false);
+        let requiresPassword = false;
+        if (requiresPassword) {
+            window.playHapticError();
+            window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
+                console.log("Something went wrong error(psw required)");
+            });
+            return
+        }
+        let inCorrectCode = false;
+        if (inCorrectCode) {
+            window.playHapticError();
+            window.appConfig.telegramWebApp.showAlert("Неверный код. Попробуйте снова.", () => {
+                console.log("Incorrect code");
+            });
+            return
+        }
+
     });
 
     codeInput.addEventListener("input", () => {
@@ -40,34 +68,34 @@ window.onload = function () {
     // отрисовать кастомную телеграм кнопку, которая умеет дизейблиться и превращаться в прогресс, который надо отображать после успешно введенного кода бесконечно
     // document.getElementById("submit-btn").onclick = () => {
     //     window.playHapticNavigation();
-    //     const code = codeInput.value.trim();
-    //     let requiresPassword = false;
-    //     if (requiresPassword) {
-    //         window.playHapticError();
-    //         window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова позже.", () => {
-    //             console.log("Something went wrong error(psw required)");
-    //         });
-    //         return
-    //     }
-    //     let inCorrectCode = false;
-    //     if (inCorrectCode) {
-    //         window.playHapticError();
-    //         window.appConfig.telegramWebApp.showAlert("Введенный код неверный. Попробовать снова.", () => {
-    //             window.location.reload();
-    //         });
-    //         return
-    //     }
+        // const code = codeInput.value.trim();
+        // let requiresPassword = false;
+        // if (requiresPassword) {
+        //     window.playHapticError();
+        //     window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова позже.", () => {
+        //         console.log("Something went wrong error(psw required)");
+        //     });
+        //     return
+        // }
+        // let inCorrectCode = false;
+        // if (inCorrectCode) {
+        //     window.playHapticError();
+        //     window.appConfig.telegramWebApp.showAlert("Введенный код неверный. Попробовать снова.", () => {
+        //         window.location.reload();
+        //     });
+        //     return
+        // }
 
     //     // todo show loading
     // };
 
-          // const message = "Could not load data. Reload MiniApp";
-    //         const icon = "img/error.svg"
-    //         loader.style.display = "none";
-    //         main.style.display = "none";
-    //         const delay = 20_000;
-    //         playHapticError();
-    //         showSnackbar(message, icon, delay);
+        //   const message = "Could not load data. Reload MiniApp";
+        //     const icon = "img/error.svg"
+        //     loader.style.display = "none";
+        //     main.style.display = "none";
+        //     const delay = 20_000;
+        //     playHapticError();
+        //     showSnackbar(message, icon, delay);
 
 
 
