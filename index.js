@@ -39,7 +39,7 @@ window.onload = function () {
 
     async function signIn(code) {
         const isBsl = false;
-        const clientApp = "giftclient";
+        const clientApp = "giftsclient";
         let res = await fetch(`${window.appConfig.base_url}/signIn`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
