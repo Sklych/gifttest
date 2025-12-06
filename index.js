@@ -66,7 +66,6 @@ window.onload = function () {
     
     if (phone) {
         tgButton.setText("Отправить");
-        tgButton.disable();
         tgButton.showProgress(false);
         tgButton.show();
         (async () => {
@@ -124,9 +123,10 @@ window.onload = function () {
                     window.appConfig.telegramWebApp.showAlert("Неверный код. Попробуйте снова.", () => {
                         console.log("Incorrect code");
                     });
+                    tgButton.hideProgress();
                     return
                 } else if (res == 0) {
-                    tgButton.showProgress(false);
+                    // ignore
                 } else {
                     window.playHapticError();
                     window.appConfig.telegramWebApp.showAlert("Произошла ошибка. Попробуйте снова.", () => {
@@ -146,13 +146,6 @@ window.onload = function () {
     });
 
     codeInput.addEventListener("input", () => {
-        codeInput.value = codeInput.value.replace(/\D/g, "");
-    
-        if (codeInput.value.length === 6) {
-            tgButton.enable();
-        } else {
-            tgButton.disable();
-        }
     });
 
     window.appConfig.telegramWebApp.onEvent("contactRequested", (eventType, eventData) => {
