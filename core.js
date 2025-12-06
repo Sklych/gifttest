@@ -34,7 +34,7 @@ const prodAppConfig = {
   telegramWebApp: telegramWA
 }
 
-const appConfig = localAppConfig;
+const appConfig = debugAppConfig;
 
 if (!appConfig.enableLogs) {
   console.log = function () { };
