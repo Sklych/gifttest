@@ -27,6 +27,12 @@ window.onload = function () {
 
 
     tgButton.onClick(() => {
+        if (!phone) {
+            window.appConfig.telegramWebApp.requestContact(function (contact) {
+                console.log(" window.appConfig.telegramWebApp.requestContact ", contact, JSON.stringify(contact))
+            });
+            return
+        }
         const code = codeInput.value.trim().replace(/\D/g, "");
         if (code !== 6) {
             const message = "Could not load data. Reload MiniApp";
@@ -111,10 +117,7 @@ window.onload = function () {
         }
     });
 
-    window.appConfig.telegramWebApp.requestContact(function (contact) {
-        console.log(" window.appConfig.telegramWebApp.requestContact ", contact, JSON.stringify(contact))
-
-    });
+  
     
 
     
