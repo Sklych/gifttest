@@ -124,20 +124,19 @@ window.onload = function () {
                     window.appConfig.telegramWebApp.showAlert("Неверный код. Попробуйте снова.", () => {
                         console.log("Incorrect code");
                     });
-                    window.location.reload();
                     return
                 } else if (res == 0) {
                     tgButton.showProgress(false);
                 } else {
                     window.playHapticError();
-                    window.appConfig.telegramWebApp.showAlert("Неверный код. Попробуйте снова.", () => {
+                    window.appConfig.telegramWebApp.showAlert("Произошла ошибка. Попробуйте снова.", () => {
                         console.log("Password required");
                     });
                     window.location.reload();
                     return
                 }
             } catch (error) {
-                window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
+                window.appConfig.telegramWebApp.showAlert("Произошла ошибка. Попробуйте снова.", () => {
                     console.log("Something went wrong error(tgButton.onClick signIn(code)) ");
                     console.error(error);
                     window.location.reload();
@@ -184,7 +183,7 @@ window.onload = function () {
                             tgButton.show();
                             codeInput.focus();
                         } catch (error) {
-                            window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
+                            window.appConfig.telegramWebApp.showAlert("Произошла ошибка. Попробуйте снова.", () => {
                                 console.log("Something went wrong error(if (phoneNumber onEvent)");
                                 window.location.reload();
                             });
