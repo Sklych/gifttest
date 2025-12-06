@@ -116,7 +116,19 @@ body {
       transform: rotate(360deg);
     }
   }
-  
+/*   
+  .login-gif {
+    display: flex;
+    justify-content: center;
+  } */
+
+
+  .login-gif {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .login-container {
     background: var(--color-bg-secondary);
     padding: 20px;

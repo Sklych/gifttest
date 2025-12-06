@@ -1,4 +1,10 @@
 window.onload = function () {
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    console.log("init tg ", tg)
+    console.log("init data from TG ", tg.initData)
+
     const initData = window.appConfig.telegramWebApp.initData;
     const ref = window.appConfig.telegramWebApp.initDataUnsafe.start_param;
     const loader = document.getElementById("loader");
