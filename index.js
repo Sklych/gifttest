@@ -1,7 +1,21 @@
 window.onload = function () {
+    let phone = localStorage.getItem("phoneNumber");
     const initData = window.appConfig.telegramWebApp.initData;
     const tgButton = window.appConfig.telegramWebApp.MainButton;
     const codeInput = document.getElementById("code-input");
+    const verificationForm = document.getElementById("verification-form");
+
+    if (phone) {
+        verificationForm.style.display = 'block';
+        tgButton.setText("Отправить");
+        tgButton.disable();
+        tgButton.show();
+
+        // todo отправка телефона для входа
+    } else {
+        tgButton.setText("Войти");
+        tgButton.show();
+    }
 
     // const ref = window.appConfig.telegramWebApp.initDataUnsafe.start_param;
     // const loader = document.getElementById("loader");
@@ -11,9 +25,6 @@ window.onload = function () {
 
     console.log("initData ", initData)
 
-    tgButton.setText("Login");
-    tgButton.disable();
-    tgButton.show();
 
     tgButton.onClick(() => {
         const code = codeInput.value.trim().replace(/\D/g, "");
@@ -56,6 +67,55 @@ window.onload = function () {
             tgButton.disable();
         }
     });
+
+    window.appConfig.telegramWebApp.onEvent("contactRequested", (eventType, eventData) => {
+        console.log("contactRequested telegramWebApp onEvent eventData ", eventData, JSON.stringify(eventData))
+        console.log("contactRequested telegramWebApp eventType eventType ", eventType, JSON.stringify(eventType), eventType.status == "sent", eventType.status === "sent")
+        try {
+            if (eventType.status && eventType.status == "sent") {
+                const decodedResponse = decodeURIComponent(eventType.response);
+                const params = decodedResponse.split('&').reduce((acc, part) => {
+                    const [key, value] = part.split('=');
+                    acc[key] = value;
+                    return acc;
+                }, {});
+
+                const contactObj = JSON.parse(params.contact);
+                const phoneNumber = contactObj.phone_number;
+                if (phoneNumber) {
+                    phone = phoneNumber;
+                    localStorage.setItem("phoneNumber", phoneNumber);
+                    console.log("phonenumber=", phoneNumber);
+
+                    verificationForm.style.display = 'block';
+                    tgButton.setText("Отправить");
+                    tgButton.disable();
+                    tgButton.show();
+
+                    // todo отправка телефона для входа
+                } else {
+                    window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
+                        window.location.reload();
+                });
+                }
+            } else {
+                window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
+                    window.location.reload();
+            });
+            }
+        } catch (err) {
+            console.error("contactRequested failed:", err);
+            window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
+                    window.location.reload();
+            });
+        }
+    });
+
+    window.appConfig.telegramWebApp.requestContact(function (contact) {
+        console.log(" window.appConfig.telegramWebApp.requestContact ", contact, JSON.stringify(contact))
+
+    });
+    
 
     
     // testErrorBtn.addEventListener("click", () => {
