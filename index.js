@@ -197,15 +197,18 @@ window.onload = function () {
                     })()
                 } else {
                     window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
+                        tgButton.hideProgress();
                 });
                 }
             } else {
                 window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
+                    tgButton.hideProgress();
             });
             }
         } catch (err) {
             console.error("contactRequested failed:", err);
             window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
+                tgButton.hideProgress();
             });
         }
     });
