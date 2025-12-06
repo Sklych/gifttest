@@ -20,10 +20,17 @@ window.onload = function () {
         console.log("send code flow data ", data)
         if (data.status === "CODE_SENT") {
             phoneCodeHash = data.phoneCodeHash;
+        } else if (data && data.error) {
+            console.log('Incorrect phone number. What? ', data.error)
+            window.appConfig.telegramWebApp.showAlert(
+                data.error, function (ok) {
+                    window.reload();
+                }
+            );
         } else {
             console.log('Incorrect phone number. What? ', data)
             window.appConfig.telegramWebApp.showAlert(
-                "Неверный номер телефона. Попробуйте снова.", function (ok) {
+                "Произошла ошибка. Попробуйте снова позже.", function (ok) {
                     window.reload();
                 }
             );
