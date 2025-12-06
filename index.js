@@ -7,12 +7,15 @@ window.onload = function () {
 
     const testErrorBtn = document.getElementById("test-error-btn");
 
-    window.appConfig.telegramWebApp.MainButton.setText("Login tg button");
-    window.appConfig.telegramWebApp.MainButton.show();
+    console.log("initData ", initData)
+    console.log("ref ", ref)
 
-    window.appConfig.telegramWebApp.MainButton.onClick(() => {
-        window.appConfig.telegramWebApp.MainButton.showProgress();
-    });
+    // window.appConfig.telegramWebApp.MainButton.setText("Login tg button");
+    // window.appConfig.telegramWebApp.MainButton.show();
+
+    // window.appConfig.telegramWebApp.MainButton.onClick(() => {
+    //     window.appConfig.telegramWebApp.MainButton.showProgress();
+    // });
 
     
     testErrorBtn.addEventListener("click", () => {
