@@ -140,10 +140,8 @@ body {
     margin-top: 20px;
 }
 
-.verification-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.verification-form input {
+  margin-top: 16px; /* space between title and input */
 }
 
 .login-title {
