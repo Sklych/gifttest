@@ -10,6 +10,7 @@ window.onload = function () {
         tgButton.setText("Отправить");
         tgButton.disable();
         tgButton.show();
+        codeInput.focus();
 
         // todo отправка телефона для входа
     } else {
@@ -34,7 +35,7 @@ window.onload = function () {
             return
         }
         const code = codeInput.value.trim().replace(/\D/g, "");
-        if (code !== 6) {
+        if (code.length !== 6) {
             const message = "Could not load data. Reload MiniApp";
             const icon = "img/error.svg"
             loader.style.display = "none";
@@ -97,6 +98,7 @@ window.onload = function () {
                     tgButton.setText("Отправить");
                     tgButton.disable();
                     tgButton.show();
+                    codeInput.focus();
 
                     // todo отправка телефона для входа
                 } else {
