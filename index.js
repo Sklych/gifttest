@@ -101,23 +101,18 @@ window.onload = function () {
                     // todo отправка телефона для входа
                 } else {
                     window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
-                        window.location.reload();
                 });
                 }
             } else {
                 window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
-                    window.location.reload();
             });
             }
         } catch (err) {
             console.error("contactRequested failed:", err);
             window.appConfig.telegramWebApp.showAlert("Предоставьте доступ к номеру телефона для входа", () => {
-                    window.location.reload();
             });
         }
     });
-
-  
     
 
     
