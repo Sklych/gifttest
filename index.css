@@ -233,6 +233,6 @@ body {
 
 .check-code-text {
   font-size: 12px;
-  font-weight: 700;
   color: var(--color-accent);
+  margin-top: 8px;
 }
