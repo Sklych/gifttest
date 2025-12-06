@@ -16,12 +16,12 @@ window.onload = function () {
     console.log("initData ", initData)
     console.log("ref ", ref)
 
-    // window.appConfig.telegramWebApp.MainButton.setText("Login tg button");
-    // window.appConfig.telegramWebApp.MainButton.show();
+    window.appConfig.telegramWebApp.MainButton.setText("Login tg button");
+    window.appConfig.telegramWebApp.MainButton.show();
 
-    // window.appConfig.telegramWebApp.MainButton.onClick(() => {
-    //     window.appConfig.telegramWebApp.MainButton.showProgress();
-    // });
+    window.appConfig.telegramWebApp.MainButton.onClick(() => {
+        window.appConfig.telegramWebApp.MainButton.showProgress();
+    });
 
     
     testErrorBtn.addEventListener("click", () => {
@@ -57,9 +57,16 @@ window.onload = function () {
 
       
 
-      codeInput.addEventListener("input", () => {
-        codeInput.value = codeInput.value.replace(/\D/g, ""); // remove everything except 0-9
-      });
+    codeInput.addEventListener("input", () => {
+        codeInput.value = codeInput.value.replace(/\D/g, "");
+        const tgButton = window.appConfig.telegramWebApp.MainButton;
+    
+        if (codeInput.value.length === 6) {
+            tgButton.enable();
+        } else {
+            tgButton.disable();
+        }
+    });
 
       loader.style.display = 'none';
       main.style.display = "block";
