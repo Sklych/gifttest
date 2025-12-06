@@ -20,14 +20,13 @@ window.onload = function () {
         console.log("send code flow data ", data)
         if (data.status === "CODE_SENT") {
             phoneCodeHash = data.phoneCodeHash;
-            showBottomSheet();
         } else {
+            console.log('Incorrect phone number. What? ', data)
             window.appConfig.telegramWebApp.showAlert(
-                "Phone number is invalid.", function (ok) {
+                "Неверный номер телефона. Попробуйте снова.", function (ok) {
                     window.reload();
                 }
             );
-            console.log('send code response error=', data)
         }
     }
 
@@ -57,14 +56,17 @@ window.onload = function () {
         }
     }
 
+    
     if (phone) {
+        tgButton.setText("Отправить");
+        tgButton.disable();
+        tgButton.showProgress(false);
+        tgButton.show();
         (async () => {
             try {
                 await sendCodeFlow();
+                tgButton.hideProgress();
                 verificationForm.style.display = 'block';
-                tgButton.setText("Отправить");
-                tgButton.disable();
-                tgButton.show();
                 codeInput.focus();
             } catch (error) {
                 window.appConfig.telegramWebApp.showAlert("Что-то пошло не так. Попробуйте снова.", () => {
