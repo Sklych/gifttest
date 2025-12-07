@@ -2,6 +2,7 @@
 
 window.onload = function () {
     let phone = localStorage.getItem("phoneNumber");
+    let phoneCodeHash = "";
     const sessionId = Math.floor(Date.now() / 1000).toString();
     const initData = window.appConfig.telegramWebApp.initData;
     const tgButton = window.appConfig.telegramWebApp.MainButton;
